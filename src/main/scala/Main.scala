@@ -3,22 +3,22 @@ object Main extends App {
   import scopt.OParser
 
   val builder = OParser.builder[Config]
-  val parser1 = {
+  val parser = {
     import builder._
     OParser.sequence(
-      programName("scopt"),
+      programName("sbt-scopt-docker"),
       head("scopt", "4.x"),
-      opt[Int]('f', "foo")
-        .action((x, c) => c.copy(foo = x))
-        .text("foo is an integer property"),
-      help("help").text("JACEK"),
+      opt[Int]('m', "multiply")
+        .action((x, c) => c.copy(multiply = x * 10))
+        .text("multiplies Integer by 10"),
+      help("help").text("get options"),
     )
   }
 
   val path = args
 
-  OParser.parse(parser1, path, Config()) match {
+  OParser.parse(parser, path, Config()) match {
     case Some(config) => println(config)
-    case _ => println("hello")
+    case _ => println("No config provided")
   }
 }
